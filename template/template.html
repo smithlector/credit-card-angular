@@ -1,8 +1,8 @@
 <div class="form-group">
-	<input type="text" ng-model="$value" class="cc-number {{$value | ccType}}" placeholder="Card Number" maxlength="{{$numberLength}}" cc-number ui-mask="{{$maskingWrapper}}"  ui-mask-placeholder ui-mask-placeholder-char="_" />
+	<input type="text" ng-model="$value" class="cc-number {{$value | ccType}}" placeholder="Card Number" maxlength="{{$numberLength}}" cc-number required/>
 	-- {{ $maskingWrapper }} -- {{$value}}
-	<input type="text" class="cc-date" ng-model="testDate" placeholder="MM / YY" cc-date ui-mask="(999) 9999-999"  ui-mask-placeholder ui-mask-placeholder-char="_" maxlength="10"/>
-	<input type="text" class="cc-cvv" placeholder="CVV" cc-cvv/>
+	<input type="text" class="cc-date" ng-model="testDate" placeholder="MM / YY" cc-date ui-mask="(999) 9999-999"  ui-mask-placeholder ui-mask-placeholder-char="_" maxlength="10" required/>
+	<input type="text" class="cc-cvv" placeholder="CVV" cc-cvv required/>
 	<input type="text" ng-model="$value" placeholder="Credit Card Number" class="input-lg {{$value | ccType}}"/>  
 	<span></span>
 </div>

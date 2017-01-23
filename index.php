@@ -8,9 +8,16 @@
 		<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular.min.js"></script>
 	</head>
 	<body >
-		<div class="col-xs-12 col-sm-10 col-sm-offset-1 col-md-8 col-md-offset-2" ng-controller="SliderController">
-			<credit-card-input template-url=""></credit-card-input>
-			</div>
+		<div class="col-xs-12 col-sm-10 col-sm-offset-1 col-md-8 col-md-offset-2" ng-controller="CreditCardController as ccCtrl">
+			<form name="timeSlotForm" id="timeSlotForm" action="#" novalidate ng-submit="timeSlotForm.$valid">
+				<!-- <credit-card-input template-url=""></credit-card-input> -->
+				<input type="text" ng-model="value.ccNumber" class="cc-number {{value.ccNumber | ccType}}" placeholder="Card Number" minlength="2" cc-number required/>
+				
+				<input ng-model="value.date" ui-mask="19/99" ui-mask-raw="false" placeholder="MM/YY"/>
+				<input ui-mask="(999) 999-9999" ui-mask-placeholder-char="_" ui-mask-placeholder name="phone" ng-model="value.phone" />
+				
+				<button type="submit">submit</button>
+			</form>
 		</div>
 		
 		<script type="text/javascript" src="script/mask.js"></script>

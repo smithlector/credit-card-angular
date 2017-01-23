@@ -60,7 +60,7 @@ angular.module('ui.mask', [])
             }];
         })
         .directive('uiMask', ['uiMask.Config', function(maskConfig) {
-                function isFocused (elem) {
+				function isFocused (elem) {
                   return elem === document.activeElement && (!document.hasFocus || document.hasFocus()) && !!(elem.type || elem.href || ~elem.tabIndex);
                 }
 
