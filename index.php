@@ -13,8 +13,8 @@
 				<!-- <credit-card-input template-url=""></credit-card-input> -->
 				<input type="text" ng-model="value.ccNumber" class="cc-number {{value.ccNumber | ccType}}" placeholder="Card Number" minlength="2" cc-number required/>
 				
-				<input ng-model="value.date" ui-mask="19/99" ui-mask-raw="false" placeholder="MM/YY"/>
-				<input ui-mask="(999) 999-9999" ui-mask-placeholder-char="_" ui-mask-placeholder name="phone" ng-model="value.phone" />
+				<input ng-model="value.date" class="cc-expirydate" placeholder="MM/YY" cc-date required/>
+				<input ng-model="value.cvv" class="cc-cvv" placeholder="CVV" cc-cvv required/>
 				
 				<button type="submit">submit</button>
 			</form>

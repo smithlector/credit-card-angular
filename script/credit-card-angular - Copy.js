@@ -1,13 +1,21 @@
 (function (window, document, undefined) {
 	'use strict';
 	angular.module('ular.greyGoose.addMask', []).provider('$addMask', function () {
+		var defaults = this.defaults = {
+			numberLen: 16,
+			dateLen: 5,
+			cvvLen: 3,
+			numbers: /[^0-9]+/g
+		};
 		this.$get = ['$window', '$rootScope', 'ccTypeFilter', 'ccLengthFilter', function ($window, $rootScope, ccTypeFilter, ccLengthFilter){
 			function CCardFactory(config){
 				var $ccard = {};
 				var options = $ccard.$options = config;
+				console.log(options);
 				var scope = $ccard.$scope = options.scope;
 				scope.year = new Date().getFullYear().toString().substr(2,2);
 				scope.month = new Date().getMonth() + 1;
+				//scope.ctrlDown = false;
 				$ccard.init = function (){
 					if('ccNumber' in options.attr){
 						options.element.bind('keyup', scope.$ccNumberKeyup);
@@ -17,15 +25,27 @@
 						options.element.attr('maxlength', '5');
 						options.element.bind('keypress', scope.maskExpiryDate);
 						options.element.bind('keyup', scope.$validDate);
-						options.element.bind('paste', scope.$ccDatePaste);
 					}
 					if('ccCvv' in options.attr){
 						options.element.attr('minlength', '3');
 						options.element.attr('maxlength', '4');
-						options.element.bind('paste', scope.$ccCvvPaste);
 					}
 					options.element.bind('keypress', scope.$isNumber);
+					//angular.element(document).bind('keydown', scope.ctrlKeyDown);
+					//angular.element(document).bind('keyup', scope.ctrlKeyUp);
 				};
+				/* scope.ctrlKeyDown = function(e){
+					var ctrlKey = 17, cmdKey = 91;
+					if(e.keyCode == ctrlKey || e.keyCode == cmdKey){
+						scope.ctrlDown = true;
+					}
+				};
+				scope.ctrlKeyUp = function(e){
+					var ctrlKey = 17, cmdKey = 91;
+					if(e.keyCode == ctrlKey || e.keyCode == cmdKey){
+						scope.ctrlDown = false;
+					}
+				}; */
 				scope.$ccNumberKeyup = function (e){
 					scope.$numberLength = ccLengthFilter(ccTypeFilter(this.value.substring(0, 4)));
 					if(scope.$numberLength == 16){
@@ -43,41 +63,24 @@
 					event.stopPropagation();
 					event.preventDefault();
 					var pastedData = event.clipboardData.getData('Text');
-					var numberLength = ccLengthFilter(ccTypeFilter(pastedData.substring(0, 4)));
-					var val = pastedData.replace(' ', '');
-					if(val == parseInt(val)){
-						if(numberLength == 16){
-							val = val.splice(4, 0, ' ');
-							val = val.splice(9, 0, ' ');
-							val = val.splice(14, 0, ' ');
-							this.value = val;
-						}else if(numberLength == 15){
-							val = val.splice(4, 0, ' ');
-							val = val.splice(11, 0, ' ');
-							this.value = val;
-						}else{
-							val = val.splice(4, 0, ' ');
-							val = val.splice(11, 0, ' ');
-							this.value = val;
-						}
+					console.log(pastedData);
+					/* options.element.unbind('keyup', scope.$ccNumberKeyup);
+					console.log(this.value);
+					var numberLength = ccLengthFilter(ccTypeFilter(this.value.substring(0, 4)));
+					var val = this.value.replace(' ', '');
+					if(numberLength == 16){
+						val = val.splice(4, 0, ' ');
+						val = val.splice(9, 0, ' ');
+						val = val.splice(14, 0, ' ');
+					}else if(numberLength == 15){
+						val = val.splice(4, 0, ' ');
+						val = val.splice(11, 0, ' ');
+					}else{
+						val = val.splice(4, 0, ' ');
+						val = val.splice(11, 0, ' ');
 					}
-				};
-				scope.$ccDatePaste = function(event){
-					event.stopPropagation();
-					event.preventDefault();
-					var pastedData = event.clipboardData.getData('Text');
-					if(pastedData.length == 5){
-						var getMY = pastedData.split('/');
-						if(getMY[1] >= scope.year && (getMY[0] > 0 && getMY[0] <= 12)){
-							this.value = pastedData;
-						}else if(getMY[1] == scope.year && getMY[0] >= scope.month && (getMY[0] > 0 && getMY[0] <= 12)){
-							this.value = pastedData;
-						}
-					}
-				};
-				scope.$ccCvvPaste = function(event){
-					event.stopPropagation();
-					event.preventDefault();
+					this.value = val;
+					options.element.bind('keyup', scope.$ccNumberKeyup); */
 				};
 				scope.maskSixteen = function (val){
 					if(val.length > 4 && val.length < 9){
